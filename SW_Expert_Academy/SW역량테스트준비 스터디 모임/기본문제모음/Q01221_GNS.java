@@ -35,9 +35,9 @@ public class Q01221_GNS {
 		num.put("SVN", 7);
 		num.put("EGT", 8);
 		num.put("NIN", 9);
-		List<String> list = new ArrayList<>();
 		
 		for(int tc=1 ; tc<=testCase ; tc++) {
+			List<String> list = new ArrayList<>();
 			StringTokenizer st = new StringTokenizer(br.readLine());
 			String an = st.nextToken();
 			int N = Integer.parseInt(st.nextToken());
