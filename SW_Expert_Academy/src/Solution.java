@@ -13,10 +13,11 @@ public class Solution {
 	public void solution() throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		int testCase = Integer.parseInt(br.readLine());
 		for(int tc=1 ; tc<=10 ; tc++) {
-			bw.write("abc \b d\n");
+			bw.write("#"+tc+" "+"\n");
+			bw.flush();
 		}
-		bw.flush();
 		bw.close();
 		br.close();
 	}
