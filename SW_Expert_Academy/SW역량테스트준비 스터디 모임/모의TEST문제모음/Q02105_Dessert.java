@@ -12,15 +12,14 @@ import java.util.StringTokenizer;
 public class Q02105_Dessert {
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
+		System.out.println("실패");
 		Q02105_Dessert a = new Q02105_Dessert();
 		a.solution();
 	}
 	int[][] dirs = {
-			
 //			하우,		하좌,		상좌,		상우  : 시계방향 or 반시계 방향만 가능
 			{1,1}, {1,-1}, {-1,-1}, {-1,1}	
 	};
-	
 	int N = 0;
 	int[][] map;
 	int cnt = 0;
@@ -36,7 +35,7 @@ public class Q02105_Dessert {
 			ret = 0;
 			map = new int[N][N];
 			boolean[][] visited = new boolean[N][N];
-			List<Integer> list = new ArrayList<>();
+			List<Integer> list = new ArrayList<>();	// 디저트 종류
 			
 //			map 만들기
 			for(int i=0 ; i<N ; i++) {
@@ -53,7 +52,9 @@ public class Q02105_Dessert {
 						// 귀퉁이가 아니어야 실행
 						for(int dir=0 ; dir<4 ; dir++) {
 							int[] start = {i,j};
-							dfs(start,list,visited,i,j,dir,0,true,"");
+							System.out.printf("<%d,%d>:%d\n",i,j,dir);
+							String str = "["+i+","+j+"]";
+							dfs(start,list,visited,i,j,dir,0,true,str);
 						}
 					}
 				}
@@ -65,38 +66,55 @@ public class Q02105_Dessert {
 		br.close();
 	}
 	private void dfs(int[] start,List<Integer> list,boolean[][] visited, int row,int col,int dir,int turn,boolean clock,String log) {
-		if(start[0] == row&&start[1]==col) {
+		if(list.size()!=0 && start[0]==row && start[1]==col) {
+			System.out.println("도착 : "+log+", list : "+list);
 			ret = Math.max(ret, list.size());
 			return;	// 도착한 경우
 		}
-		if(visited[row][col])
+		if(!inRange(row,col)) {
+			System.out.println("범위 : "+log);
+			list.remove(list.size()-1);
+			return;
+		}
+		if(visited[row][col]) {
+			System.out.println("중복 : "+log);
 			return;	// 이미 들렸던 곳인 경우 리턴
+		}
 		if(cnt>3) {
+			System.out.println("회전 : "+log);
 			return;	// 회전을 4번이상 한경우 리턴
 		}
-		if(list.contains(map[row][col]))
+		if(list.contains(map[row][col])) {
+//			list.remove(list.size()-1);
+//			visited[row][col] = false;
+			System.out.println("같은 : "+log+", list : "+list);
 			return;	// 이미 먹은 디저트인 경우 리턴
-		System.out.println(log);
+		}
+		System.out.println(" "+dir+" : "+log);
 		list.add(map[row][col]);
 		visited[row][col] = true;
 		// 그대로 직진(방향전환x)
 		int nRow = row + dirs[dir][0];
-		int nCol = row + dirs[dir][1];
-		String curPos = " ["+row+","+col+"]";
-		dfs(start,list,visited,nRow,nCol,dir,turn,clock,log+curPos);
+		int nCol = col + dirs[dir][1];
+		String nPos = "["+nRow+","+nCol+"]";
+		dfs(start,list,visited,nRow,nCol,dir,turn,clock,log+" -> "+nPos);
+//		list.remove(list.size()-1);
+		System.out.println(" "+dir+" : "+log+" : out");
 		if(clock) {
 			// 시계방향 회전
-			dir = (dir+1)%4;
-			nRow = row + dirs[dir][0];
-			nCol = col + dirs[dir][1];
+			int ndir = (dir+1)%4;
+			nRow = row + dirs[ndir][0];
+			nCol = col + dirs[ndir][1];
+			nPos = "["+nRow+","+nCol+"]";
 			// 방향 전환
-			dfs(start, list, visited, nRow, nCol, dir, turn+1, clock,log+curPos);
+			dfs(start, list, visited, nRow, nCol, ndir, turn+1, clock,log+" -> "+nPos);
 		}else {
 			// 반시계방향 회전
-			dir = (dir-1)%4;
-			nRow = row + dirs[dir][0];
-			nCol = col + dirs[dir][1];
-			dfs(start, list, visited, nRow, nCol, dir, turn+1, clock,log+curPos);
+			int ndir = (dir-1)%4;
+			nRow = row + dirs[ndir][0];
+			nCol = col + dirs[ndir][1];
+			nPos = " ["+nRow+","+nCol+"]";
+			dfs(start, list, visited, nRow, nCol, ndir, turn+1, clock,log+" -> "+nPos);
 		}
 		visited[row][col] = false;
 	}
