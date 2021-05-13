@@ -29,9 +29,8 @@ public class Q02382_Isolation {
 		}
 		@Override
 		public String toString() {
-			return "["+row+", "+col+"] : ("+num+")"+"dir:"+dir;
+			return "["+row+","+col+"]: ("+num+")"+"dir:"+dir;
 		}
-		
 	}
 	int N = 0;
 	int M = 0;
@@ -59,18 +58,22 @@ public class Q02382_Isolation {
 				int dir= Integer.parseInt(st.nextToken());
 				list.add(new Group(num, row, col, dir));
 			}
+//			System.out.println("<0>");
+//			printList(list);
+			
 			int time = 1;
 			while(time<=M) {
 //				System.out.println("<"+time+">");
 				// move
 				move(list);
 				// Edge
-				checkEdge(list);
+				chkEdge(list);
 				// chkMerge
 				chkMerge(list);
 				time++;
+//				printList(list);
 			}
-			int ret = sumNum(list);
+			long ret = sumNum(list);
 			
 			bw.write("#"+tc+" "+ret+"\n");
 			bw.flush();
@@ -78,8 +81,8 @@ public class Q02382_Isolation {
 		bw.close();
 		br.close();
 	}
-	private int sumNum(List<Group> list) {
-		int sum = 0;
+	private long sumNum(List<Group> list) {
+		long sum = 0;
 		for(int i=0 ; i<list.size() ; i++) {
 			sum += list.get(i).num;
 		}
@@ -101,7 +104,7 @@ public class Q02382_Isolation {
 			for(int j=i-1 ; j>=0 ; j--) {
 				if(list.get(i).row==list.get(j).row && list.get(i).col==list.get(j).col) {
 					if(j==0) {
-						merge(list,j+1,i);
+						merge(list,j,i);
 						i=j+1;
 					}
 					continue;
@@ -139,7 +142,7 @@ public class Q02382_Isolation {
 		return;
 	}
 	
-	private void checkEdge(List<Group> list) {
+	private void chkEdge(List<Group> list) {
 		for(int i=0 ; i<list.size() ; i++) {
 			Group g = list.get(i);
 			int row = g.row;
