@@ -25,8 +25,6 @@ public class Q02383_LunchTime {
 		
 		int stair;	// 사용할 계단 index
 		int dist;
-		int in;
-		boolean cut;// false : 아직 list에, true:queue로 
 		
 		public Person(int name,int row, int col) {
 			this.name = name;
@@ -63,7 +61,7 @@ public class Q02383_LunchTime {
 		int testCase = Integer.parseInt(br.readLine());
 		for(int tc=1 ; tc<=testCase ; tc++) {
 			N = Integer.parseInt(br.readLine());
-			ret = 0;
+			ret = Integer.MAX_VALUE;
 			StringTokenizer st;
 	
 			int[][] map = new int[N][N];
@@ -81,27 +79,19 @@ public class Q02383_LunchTime {
 					}
 				}
 			}
-//			for(Person p : pList) {
-//				for(Stair s : sList) {
-//					s.dist.add(new int[] {p.name,getDist(p, s)});
-//				}
-//			}
-//			for(Stair s : sList) {
-//				for(Person p : pList) {
-//					p.dist.add(new int[] {s.name,getDist(p, s)});
-//				}
-//			}
-			System.out.println("Person List");
-			for(Person p : pList) {
-				System.out.println(p);
-			}
 			
-			System.out.println("Stair List");
-			for(Stair s : sList) {
-				System.out.println(s);
-			}
+//			System.out.println("Person List");
+//			for(Person p : pList) {
+//				System.out.println(p);
+//			}
+//			
+//			System.out.println("Stair List");
+//			for(Stair s : sList) {
+//				System.out.println(s);
+//			}
+			
 			dfs(sList,pList, 0, pName);
-			bw.write("#"+tc+" "+"\n");
+			bw.write("#"+tc+" "+ret+"\n");
 			bw.flush();
 		}
 		bw.close();
@@ -147,12 +137,12 @@ public class Q02383_LunchTime {
 		}
 		sList.get(0).member.sort(comp);
 		sList.get(1).member.sort(comp);
-		System.out.print("stair0 : ");
-		printList(sList.get(0).member);
-		
-		System.out.print("stair1 : ");
-		printList(sList.get(1).member);
-		System.out.println();
+//		System.out.print("stair0 : ");
+//		printList(sList.get(0).member);
+//		
+//		System.out.print("stair1 : ");
+//		printList(sList.get(1).member);
+//		System.out.println();
 		
 		// 시간이 얼마나 걸리는지 확인
 		Stair s0 = sList.get(0);
@@ -160,52 +150,93 @@ public class Q02383_LunchTime {
 		Stair s1 = sList.get(1);
 		int len1 = s1.member.size();
 		Queue<Person> q0 = new LinkedList<>();
+		Queue<Integer> t0= new LinkedList<>();
 		Queue<Person> q1 = new LinkedList<>();
+		Queue<Integer> t1= new LinkedList<>();
 		int time0 = 1;
-		int cnt0 = 0;
+		int success0 = 0;
 		int time1 = 1;
-		int cnt1 = 0;
-		while(cnt0<len0) {
+		int success1 = 0;
+		// 1번계단
+		while(true) {
+//			System.out.println(time0);
+			// 계단 시간 지나면 빠져나옴
+			while(q0.size()>0 && time0-t0.peek()>s0.length) {
+				q0.poll();
+				t0.poll();
+				success0++;
+			}
 			for(int i=0 ; i<s0.member.size() ; i++ ) {
 				Person p = s0.member.get(i);
+				// 1칸 이동
 				if(p.dist>=1) {
 					p.dist--;
 				}
-				if(!p.cut && p.dist<=0 && q0.size()<3) {
-					p.in = time0;
-					p.cut = true;
-					i--;
+				// 이동후 입구도착(계단이용가능상태) -> 계단으로 진입
+				if(p.dist<=0 && q0.size()<3) {
+					t0.offer(time0);
 					s0.member.remove(p);
 					q0.offer(p);
-				}
-				if(q0.size()>0 && time0-q0.peek().in>s0.length) {
-					q0.poll();
+					i--;
 				}
 			}
+//			System.out.print("s0 : ");
+//			printList(s0.member);
+//			System.out.print("q0 : ");
+//			printQueue(q0);
+//			System.out.print("t0 : ");
+//			System.out.println(t0);
+			
+			if(success0>=len0)
+				break;
 			time0 ++;
 		}
-		while(cnt1<len1) {
+//		time0 += s0.length;
+		// 2번 계단
+		while(true) {
+//			System.out.println(time1);
+			// 계단 시간 지나면 빠져나옴
+			while(q1.size()>0 && time1-t1.peek()>s1.length) {
+				q1.poll();
+				t1.poll();
+				success1++;
+			}
 			for(int i=0 ; i<s1.member.size() ; i++ ) {
 				Person p = s1.member.get(i);
+				// 1칸 이동
 				if(p.dist>=1) {
 					p.dist--;
 				}
-				if(!p.cut && p.dist<=0 && q1.size()<3) {
-					p.in = time1;
-					p.cut = true;
-					i--;
+				// 이동후 입구도착(계단이용가능상태) -> 계단으로 진입
+				if(p.dist<=0 && q1.size()<3) {
+					t1.offer(time1);
 					s1.member.remove(p);
 					q1.offer(p);
-				}
-				if(q1.size()>0 && time1-q1.peek().in>s1.length) {
-					q1.poll();
+					i--;
 				}
 			}
+//			System.out.print("s1 : ");
+//			printList(s1.member);
+//			System.out.print("q1 : ");
+//			printQueue(q1);
+//			System.out.print("t1 : ");
+//			System.out.println(t1);
+			if(success1>=len1)
+				break;
 			time1 ++;
 		}
+//		time1 += s1.length;
+		
+		
+//		System.out.println("final time0:"+time0);
+//		System.out.println("final time1:"+time1);
+		
 		sList.get(0).member.clear();
 		sList.get(1).member.clear();
-		int ret = Math.min(time0, time1);
+		q0.clear();
+		q1.clear();
+		int time = Math.max(time0, time1);
+		int ret = time;
 		return ret;
 	}
 	
@@ -220,6 +251,12 @@ public class Q02383_LunchTime {
 	
 	private void printList(List<Person> list) {
 		for(Person p : list) {
+			System.out.printf("(n=%d:d=%d) ",p.name,p.dist);
+		}
+		System.out.println();
+	}
+	private void printQueue(Queue<Person> q) {
+		for(Person p : q) {
 			System.out.printf("(n=%d:d=%d) ",p.name,p.dist);
 		}
 		System.out.println();
