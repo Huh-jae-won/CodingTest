@@ -1,9 +1,9 @@
 package Level2;
 
-public class Q07_CompressStr {
+public class CompressStr {
 
 	public static void main(String[] args) {
-		Q07_CompressStr a = new Q07_CompressStr();
+		CompressStr a = new CompressStr();
 		String str = "ababcdcdababcdcd";
 //		String str = "abcabcdede";
 //		String str = "abcabcabcabcdededededede";
