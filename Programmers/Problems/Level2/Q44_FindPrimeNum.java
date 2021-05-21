@@ -3,9 +3,9 @@ package Level2;
 import java.util.HashSet;
 import java.util.Set;
 
-public class FindPrimeNum {
+public class Q44_FindPrimeNum {
 	public static void main(String[] args) {
-		FindPrimeNum a = new FindPrimeNum();
+		Q44_FindPrimeNum a = new Q44_FindPrimeNum();
 		String numbers = "17";
 //		String numbers = "011";
 		int ret = a.solution(numbers);

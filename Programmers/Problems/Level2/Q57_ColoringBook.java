@@ -1,9 +1,9 @@
 package Level2;
 
-public class ColoringBook {
+public class Q57_ColoringBook {
 
 	public static void main(String[] args) {
-		ColoringBook a = new ColoringBook();
+		Q57_ColoringBook a = new Q57_ColoringBook();
 		int m = 6;
 		int n = 4;
 		int[][] picture = {

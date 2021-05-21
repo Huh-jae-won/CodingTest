@@ -3,9 +3,9 @@ package Level2;
 import java.util.HashSet;
 import java.util.Set;
 
-public class TargetNum {
+public class Q53_TargetNum {
 	public static void main(String[] args) {
-		TargetNum a = new TargetNum();
+		Q53_TargetNum a = new Q53_TargetNum();
 		
 		int[] numbers = {1,1,1,1,1};
 		int target = 3;
