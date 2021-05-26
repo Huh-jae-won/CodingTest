@@ -16,16 +16,15 @@ public class Q09_MusicVideo {
 			arr[i] = sc.nextInt();
 			sum += arr[i];
 		}
-		int start = sum/M;
 		a.solution(arr, M);
 	}
 	public void solution(int[] arr, int M) {
-		System.out.println(Arrays.toString(arr));
+//		System.out.println(Arrays.toString(arr));
 		int[] dvd = new int[M];
 		
 		int N = arr.length;
 		boolean[] visited = new boolean[N];
-		int len = startLen(arr, M);
+		int len = Arrays.stream(arr).max().getAsInt();
 		while(true) {
 			int start = 0;
 			for(int idx=0 ; idx<3 ; idx++) {
@@ -48,31 +47,24 @@ public class Q09_MusicVideo {
 				}
 			}
 			if(allVisit(visited)) {
+//				성공
 				break;
 			}else {
-				System.out.println("len : "+len);
-				System.out.print(Arrays.toString(dvd)+" ");
-				for(int i=0 ; i<N ; i++) {
-					if(!visited[i]) {
-						System.out.print(arr[i]+" ");
-					}
-				}
-				System.out.println();
-				System.out.println();
+				printState(len, dvd, arr, visited);
 				makeFalse(visited);
 				clearDVD(dvd);
 				len++;
 			}
 		}
-		System.out.println("len : "+len);
+//		System.out.println("len : "+len);
 		System.out.println(Arrays.toString(dvd));
+		System.out.println(len);
 	}
 	private void makeFalse(boolean[] visited) {
 		for(int i=0 ; i<visited.length ; i++) {
 			visited[i] = false;
 		}
 	}
-	
 	private boolean allVisit(boolean[] visited) {
 		for(boolean b : visited) {
 			if(!b) {
@@ -91,5 +83,15 @@ public class Q09_MusicVideo {
 		for(int i=0 ; i<3 ; i++) {
 			dvd[i] = 0;
 		}
+	}
+	private void printState(int len, int[] dvd, int[] arr, boolean[] visited) {
+		System.out.print("len("+len+") : "+Arrays.toString(dvd));
+		for(int i=0 ; i<visited.length ; i++) {
+			if(!visited[i]) {
+				System.out.print(" "+arr[i]);
+			}
+		}
+		System.out.println();
+		System.out.println();
 	}
 }
