@@ -2,9 +2,9 @@ package Level2;
 
 import java.util.PriorityQueue;
 
-public class Q55_Spicier {
+public class Spicier {
 	public static void main(String[] args) {
-		Q55_Spicier a = new Q55_Spicier();
+		Spicier a = new Spicier();
 		int[] scoville = {1, 2, 3, 9, 10, 12};
 		int K = 7;
 		int ret = a.solution(scoville, K);
