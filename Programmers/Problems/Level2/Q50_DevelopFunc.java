@@ -5,9 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-public class DevelopFunc {
+public class Q50_DevelopFunc {
 	public static void main(String[] args) {
-		DevelopFunc a = new DevelopFunc();
+		Q50_DevelopFunc a = new Q50_DevelopFunc();
 		int[] progress = {93,30,55};
 		int[] speed = {1,30,5};
 		
