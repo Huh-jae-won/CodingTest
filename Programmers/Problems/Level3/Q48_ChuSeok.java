@@ -113,7 +113,7 @@ public class Q48_ChuSeok {
         return true;
     }
     
-    private Comparator<int[]> comp = new Comparator<>(){
+    private Comparator<int[]> comp = new Comparator<int[]>(){
         public int compare(int[] a, int[] b){
             if(a[0]!=b[0]){
                 return a[0]-b[0];
